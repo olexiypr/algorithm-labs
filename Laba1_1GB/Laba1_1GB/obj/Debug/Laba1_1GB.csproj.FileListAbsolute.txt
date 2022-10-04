@@ -1,0 +1,6 @@
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1_1GB/Laba1_1GB/bin/Debug/Laba1_1GB.exe
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1_1GB/Laba1_1GB/bin/Debug/Laba1_1GB.pdb
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1_1GB/Laba1_1GB/obj/Debug/Laba1_1GB.csproj.AssemblyReference.cache
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1_1GB/Laba1_1GB/obj/Debug/Laba1_1GB.csproj.CoreCompileInputs.cache
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1_1GB/Laba1_1GB/obj/Debug/Laba1_1GB.exe
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1_1GB/Laba1_1GB/obj/Debug/Laba1_1GB.pdb

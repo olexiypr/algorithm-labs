@@ -1,0 +1,6 @@
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1/Laba1/bin/Debug/Laba1.exe
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1/Laba1/bin/Debug/Laba1.pdb
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1/Laba1/obj/Debug/Laba1.csproj.AssemblyReference.cache
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1/Laba1/obj/Debug/Laba1.csproj.CoreCompileInputs.cache
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1/Laba1/obj/Debug/Laba1.exe
+/home/olexiy/RiderProjects/AlghoritmLabs/Laba1/Laba1/obj/Debug/Laba1.pdb
