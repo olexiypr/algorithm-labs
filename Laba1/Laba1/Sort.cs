@@ -139,7 +139,7 @@ namespace Laba1
         public static void CheckRes()
         {
             using var reader = new StreamReader("input.txt", Encoding.UTF32);
-            for (var i = 0; i < countIntInFIle-5000; i++)
+            for (var i = 0; i < 1000; i++)
             {
                 reader.ReadLine();
             }

@@ -14,7 +14,6 @@ namespace Laba1_1GB
         public static int countServ = 4;
         public static long servSize = sizeInputFile / countServ;  //розмір куска для сортування (128 мб)
         public static long countIntInServ = servSize / 32;  //кількість чисел в порції для сортування
-        //"12345678" = 32 bytes;
         public static long countIntInFIle = sizeInputFile / 32; //кількість чисел у всьому файлі
         public static string inputPath = "input.txt";
         public static void CreateFile() //метод для створення файлу
