@@ -130,14 +130,9 @@ def solve_knapsack() -> Individual:
 
     avg_fitnesses = []
 
-    for _ in range(500):
+    for _ in range(50):
         avg_fitnesses.append(average_fitness(population))
         population = next_generation(population)
-<<<<<<< HEAD
-=======
-        print(str(get_total_weigth(sorted(population, key=lambda i: i.fitness(), reverse=True)[0].bits)) + " " +
-        str(sorted(population, key=lambda i: i.fitness(), reverse=True)[0].fitness()))
->>>>>>> 214c0a2 (Laba 4)
 
     population = sorted(population, key=lambda i: i.fitness(), reverse=True)
     return population[0]
