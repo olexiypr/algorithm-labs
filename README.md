@@ -2,4 +2,3 @@
 
 ```
 $ python3 genetic.py
-
