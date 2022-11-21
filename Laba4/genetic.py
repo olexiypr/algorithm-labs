@@ -53,6 +53,8 @@ for i in range(100):
 
 
 def generate_initial_population(count=100) -> List[Individual]:
+    if count < 1:
+        count = 100
     population = set()
     while len(population) != count: 
         bits = [
@@ -169,7 +171,7 @@ if __name__ == '__main__':
 
 #tests   
 
-class HeneticTests(TestCase):
+class GeneticTests(TestCase):
     def test_generate_100_people_in_population(self):
         count = 100
         length = len(generate_initial_population(count))
@@ -182,6 +184,33 @@ class HeneticTests(TestCase):
     def test_next_generation_return_100_persons(self):
         population = generate_initial_population(100)
         self.assertEqual(len(next_generation(population)), 100)
+
+    def test_generate_100_people_with_negative_count(self):
+        count = -10
+        length = len(generate_initial_population(count))
+        self.assertEqual(length, 100)
+
+    def test_individual_fitness_return_0(self):
+        ind = Individual(bits = [
+            1
+            for _ in items
+        ])
+        self.assertEqual(0, ind.fitness())
+
+    def test_individual_return_correct_value(self):
+        ind = generate_initial_population(100)[0]
+        total = 0
+        weight = 0
+        for i in range(100):
+            if ind.bits[i] == 1:
+                total += items[i].value
+                weight += items[i].weight
+        
+        if weight > MAX_KNAPSACK_WEIGHT:
+            self.assertEqual(ind.fitness(), 0)
+        else :
+            self.assertEqual(ind.fitness(), total)
+
 
 if __name__ == '__main__':
     main()
