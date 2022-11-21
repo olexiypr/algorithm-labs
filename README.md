@@ -1,5 +1,5 @@
 ### How to run 4 lab
 
 ```
-$ python genetic.py
+$ python3 genetic.py
 
