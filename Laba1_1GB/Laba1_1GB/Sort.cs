@@ -10,13 +10,13 @@ namespace Laba1_1GB
 {
     public static class Sort
     {
-        public static long sizeInputFile = 1024 * 1024 * 1024; //розмір вхідного файла в байтах
-        public static int countServ = 4;
+        public static long sizeInputFile = 82; //розмір вхідного файла в байтах
+        public static int countServ = 2;
         public static long servSize = sizeInputFile / countServ;  //розмір куска для сортування (128 мб)
-        public static long countIntInServ = servSize / 32;  //кількість чисел в порції для сортування
-        public static long countIntInFIle = sizeInputFile / 32; //кількість чисел у всьому файлі
+        public static long countIntInServ = servSize / 4;  //кількість чисел в порції для сортування
+        //public static long countIntInFIle = sizeInputFile / 4; //кількість чисел у всьому файлі
         public static string inputPath = "input.txt";
-        public static void CreateFile() //метод для створення файлу
+        /*public static void CreateFile() //метод для створення файлу
         {
             var random = new Random();
             using var writer = new StreamWriter(inputPath, false, Encoding.UTF32);
@@ -24,7 +24,7 @@ namespace Laba1_1GB
             {
                 writer.WriteLine(random.Next(10000000, 99999999).ToString());
             }
-        }
+        }*/
 
         public static string StartSort() //початок сорутвання
         {
@@ -50,10 +50,10 @@ namespace Laba1_1GB
 
         public static void SplitTwoFilesInOne(string path1, string path2)
         {
-            using var reader1 = new StreamReader(path1, Encoding.UTF32);
-            using var reader2 = new StreamReader(path2, Encoding.UTF32);
+            using var reader1 = new StreamReader(path1);
+            using var reader2 = new StreamReader(path2);
             string resPath = path1 + path2; //назва вихідного файлу
-            var writer = new StreamWriter(resPath, true, Encoding.UTF32);
+            var writer = new StreamWriter(resPath, true);
             bool flag1 = true, flag2 = true; //вони потрібні щоб числа з одного файлу записувались в вихідний, доки вони менші за число з другого файлу 
             string num1 = String.Empty, num2 = String.Empty;
             while (true)
@@ -111,12 +111,12 @@ namespace Laba1_1GB
         }
         public static List<string> CreateServFile() //метод для розділення файлу на 4 частини
         {
-            using var reader = new StreamReader(inputPath, Encoding.UTF32);
+            using var reader = new StreamReader(inputPath);
             var paths = new string[countServ];
             for (int i = 0; i < countServ; i++)
             {
                 paths[i] = inputPath + i; //створення імені нового файлу (наприклад: input.txt0)
-                using var writer = new StreamWriter(paths[i], false, Encoding.UTF32);
+                using var writer = new StreamWriter(paths[i], false);
                 var arr = new int[countIntInServ];
                 for (int j = 0; j < countIntInServ; j++) //запис частини файлу в масив
                 {
@@ -138,7 +138,7 @@ namespace Laba1_1GB
         //зчитує невелику постідовність даних для демонстрації коректності роботи програми
         public static void CheckRes(string path) 
         {                                       
-            using var reader = new StreamReader(path, Encoding.UTF32);
+            using var reader = new StreamReader(path);
             for (int i = 0; i < 40000; i++)
             {
                 reader.ReadLine();

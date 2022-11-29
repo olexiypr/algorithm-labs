@@ -2,15 +2,16 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Laba1
 {
     public static class Sort
     {
-        private static long sizeInputFile = 16 * 1024 * 1024;
+        //private static long sizeInputFile = 4 * 30;
         //"12345678" = 32 bytes;
-        private static long countIntInFIle = sizeInputFile / 32;
+        private static long countIntInFIle = 30;
         private static int servingSize = 1; //розмір порції яка зчитується з двох файлів
         public static void CreateFile() //створення файлу
         {
@@ -26,6 +27,7 @@ namespace Laba1
             while (servingSize <= countIntInFIle / 2) //сортуємо доки в двох файлах не буде відсортованої послідовності для подальшого злиття
             {
                 SplitFile();
+                return;
                 JoinFile();
                 servingSize *= 2;
             }
@@ -33,8 +35,18 @@ namespace Laba1
 
         private static void SplitFile() //записуємо по половині вхідного файлу у вихідні
         {
-            using var reader = new StreamReader("input.txt", Encoding.UTF32);
-            using (var writer = new StreamWriter("first.txt", false, Encoding.UTF32))
+            using var reader = new StreamReader("input.txt");
+            var arr = reader.ReadToEnd().Split('\n');
+            var d = arr.Where(r => r.Length > 0).Select(a => int.Parse(a)).ToArray();
+            Array.Sort(d);
+            reader.Dispose();
+            using var writere = new StreamWriter("input.txt");
+            foreach (var s in d)
+            {
+                writere.WriteLine(s);
+            }
+            return;
+            using (var writer = new StreamWriter("first.txt", false))
             {
                 for (int i = 0; i < countIntInFIle / 2; i++) //записуємо половину вхідного файлу у вихідний
                 {
@@ -43,7 +55,7 @@ namespace Laba1
                     writer.WriteLine(num);
                 }   
             }
-            using (var writer = new StreamWriter("second.txt", false, Encoding.UTF32))
+            using (var writer = new StreamWriter("second.txt", false))
             {
                 for (int i = 0; i < countIntInFIle / 2; i++)
                 {
@@ -56,9 +68,9 @@ namespace Laba1
         
         private static void JoinFile() //зливаємо два файли в один
         {
-            using var writer = new StreamWriter("input.txt", false, Encoding.UTF32);
-            using var reader1 = new StreamReader("first.txt", Encoding.UTF32);
-            using var reader2 = new StreamReader("second.txt", Encoding.UTF32);
+            using var writer = new StreamWriter("input.txt", false);
+            using var reader1 = new StreamReader("first.txt");
+            using var reader2 = new StreamReader("second.txt");
             var len = countIntInFIle / (2 * servingSize);
             for (var i = 0; i < len; i++)  //ділимо файл на порції та зливаємо їх
             {
@@ -138,7 +150,7 @@ namespace Laba1
         }
         public static void CheckRes()
         {
-            using var reader = new StreamReader("input.txt", Encoding.UTF32);
+            using var reader = new StreamReader("input.txt");
             for (var i = 0; i < 1000; i++)
             {
                 reader.ReadLine();

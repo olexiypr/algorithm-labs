@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Laba1
@@ -7,9 +8,9 @@ namespace Laba1
     {
         public static void Main(string[] args)
         {
-            Sort.CreateFile();
+            /*Sort.CreateFile();*/
             Sort.StartSort();
-            Sort.CheckRes();
+            /*Sort.CheckRes();*/
         }
     }
 }
