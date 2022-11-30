@@ -1,7 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Laba3
+namespace Laba3_UI
 {
     [Serializable]
     public class Block
@@ -9,4 +12,5 @@ namespace Laba3
         public int FirstIndex { get; set; }
         public List<Record> Records { get; set; }
     }
+
 }

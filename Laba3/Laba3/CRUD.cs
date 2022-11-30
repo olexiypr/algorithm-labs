@@ -1,11 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Laba3
+namespace Laba3_UI
 {
     public static class CRUD
     {
@@ -25,7 +26,7 @@ namespace Laba3
                 };
                 blocks.Add(new Block
                 {
-                    FirstIndex = lastBlock.Records.Last().Key,
+                    FirstIndex = lastBlock.Records.Last().Key + 1,
                     Records = new List<Record>()
                     {
                         rec
@@ -44,7 +45,7 @@ namespace Laba3
             WriteBlocks();
             return record;
         }
-        
+
         public static Record GetByKey(int key)
         {
             var blocks = GetBlocks();
@@ -54,9 +55,13 @@ namespace Laba3
             }
             for (int i = 0; i < blocks.Count - 1; i++)
             {
-                if ((blocks[i].FirstIndex > key && blocks[i+1].FirstIndex < key) || (blocks[i].FirstIndex > key && i == blocks.Count - 1))
+                if ((blocks[i].FirstIndex <= key && blocks[i + 1].FirstIndex > key))
                 {
                     return GetRecordInBlockByKey(key, blocks[i]); //try catch
+                }
+                if ((blocks[i].FirstIndex <= key && i == blocks.Count - 2))
+                {
+                    return GetRecordInBlockByKey(key, blocks[i+1]);
                 }
             }
 
@@ -65,16 +70,20 @@ namespace Laba3
 
         private static Block GetBlockByKey(int key)
         {
-            var blocks = GetBlocks();
-            if (blocks.Count == 1)
+            GetBlocks();
+            if (Blocks.Count == 1)
             {
-                return blocks[0];
+                return Blocks[0];
             }
-            for (int i = 0; i < blocks.Count - 1; i++)
+            for (int i = 0; i < Blocks.Count - 1; i++)
             {
-                if ((blocks[i].FirstIndex > key && blocks[i+1].FirstIndex < key) || (blocks[i].FirstIndex > key && i == blocks.Count - 1))
+                if ((Blocks[i].FirstIndex <= key && Blocks[i + 1].FirstIndex > key))
                 {
-                    return blocks[i];
+                    return Blocks[i];
+                }
+                if ((Blocks[i].FirstIndex <= key && i == Blocks.Count - 2))
+                {
+                    return Blocks[i + 1];
                 }
             }
             throw new IndexOutOfRangeException();
@@ -84,6 +93,11 @@ namespace Laba3
             var block = GetBlockByKey(key);
             var @record = GetRecordInBlockByKey(key, block);
             block.Records.Remove(record);
+            if (block.Records.Count == 0)
+            {
+                Blocks.Remove(block);
+            }
+            WriteBlocks();
         }
         private static Record GetRecordInBlockByKey(int key, Block block) //need binary search
         {
@@ -129,7 +143,7 @@ namespace Laba3
             using var fs = new FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
             if (fs.Length == 0)
             {
-                return new List<Block>()
+                var b = new List<Block>()
                 {
                     new Block
                     {
@@ -144,6 +158,8 @@ namespace Laba3
                         }
                     }
                 };
+                Blocks = b;
+                return b;
             }
             var blocks = new List<Block>(formatter.Deserialize(fs) as List<Block> ?? new List<Block>());
             fs.Flush();
@@ -157,25 +173,6 @@ namespace Laba3
             using var fs = new FileStream(Path, FileMode.Truncate, FileAccess.Write, FileShare.None);
             formatter.Serialize(fs, Blocks);
             fs.Flush();
-        }
-        private static Record Deserialize(string line)
-        {
-            if (line.Split(' ').Length != 2)
-            {
-                throw new ArgumentException();
-            }
-
-            if (!int.TryParse(line.Split(' ')[0], out var key))
-            {
-                throw new ArgumentException();
-            }
-
-            var record = new Record
-            {
-                Key = key,
-                Value = line.Split(' ')[1]
-            };
-            return record;
         }
     }
 }
