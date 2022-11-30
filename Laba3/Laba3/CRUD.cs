@@ -53,19 +53,9 @@ namespace Laba3_UI
             {
                 return GetRecordInBlockByKey(key, blocks[0]);
             }
-            for (int i = 0; i < blocks.Count - 1; i++)
-            {
-                if ((blocks[i].FirstIndex <= key && blocks[i + 1].FirstIndex > key))
-                {
-                    return GetRecordInBlockByKey(key, blocks[i]); //try catch
-                }
-                if ((blocks[i].FirstIndex <= key && i == blocks.Count - 2))
-                {
-                    return GetRecordInBlockByKey(key, blocks[i+1]);
-                }
-            }
 
-            throw new IndexOutOfRangeException();
+            var block = GetBlockByKey(key);
+            return GetRecordInBlockByKey(key, block);
         }
 
         private static Block GetBlockByKey(int key)
@@ -75,18 +65,41 @@ namespace Laba3_UI
             {
                 return Blocks[0];
             }
-            for (int i = 0; i < Blocks.Count - 1; i++)
+
+            key = GetStartIndex(key);
+            if (key == 0)
             {
-                if ((Blocks[i].FirstIndex <= key && Blocks[i + 1].FirstIndex > key))
-                {
-                    return Blocks[i];
-                }
-                if ((Blocks[i].FirstIndex <= key && i == Blocks.Count - 2))
-                {
-                    return Blocks[i + 1];
-                }
+                return Blocks[0];
+            }
+            var min = 0;
+            var max = Blocks.Count - 1; 
+            while (min <=max)  
+            {  
+                var mid = (min + max) / 2;  
+                if (key == Blocks[mid].FirstIndex)  
+                {  
+                    return Blocks[mid];  
+                }  
+                else if (key < Blocks[mid].FirstIndex)  
+                {  
+                    max = mid - 1;  
+                }  
+                else  
+                {  
+                    min = mid + 1;  
+                }  
             }
             throw new IndexOutOfRangeException();
+        }
+
+        private static int GetStartIndex(int key)
+        {
+            while (key % 50 != 0)
+            {
+                key--;
+            }
+
+            return key;
         }
         public static void DeleteRecordByKey(int key)
         {
@@ -99,15 +112,27 @@ namespace Laba3_UI
             }
             WriteBlocks();
         }
-        private static Record GetRecordInBlockByKey(int key, Block block) //need binary search
+        private static Record GetRecordInBlockByKey(int key, Block block)
         {
-            var record = block.Records.FirstOrDefault(record => record.Key == key);
-            if (record == null)
-            {
-                throw new IndexOutOfRangeException();
-            }
-
-            return record;
+            var min = 0;
+            var max = block.Records.Count - 1; 
+            while (min <=max)  
+            {  
+                var mid = (min + max) / 2;  
+                if (key == block.Records[mid].Key)  
+                {  
+                    return block.Records[mid];  
+                }  
+                else if (key < block.Records[mid].Key)  
+                {  
+                    max = mid - 1;  
+                }  
+                else  
+                {  
+                    min = mid + 1;  
+                }  
+            }  
+            throw new IndexOutOfRangeException();
         }
         private static Block GetBlockByFirstIndex(int index)
         {

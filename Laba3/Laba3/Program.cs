@@ -15,7 +15,7 @@ namespace Laba3_UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            FillDB(); //розкоментуйте цей рядок, якщо у вас немає запосненого файлу database.txt
+            /*FillDB(); *///розкоментуйте цей рядок, якщо у вас немає запосненого файлу database.txt
             Application.Run(new Form1());
         }
         private static void FillDB ()
