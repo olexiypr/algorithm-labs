@@ -12,6 +12,7 @@ namespace Laba3_UI
     {
         public const string Path = "database.txt";
         public const int CountRecordsInBlock = 50;
+        public static int CountEquals = 0;
         public static List<Block> Blocks;
         public static Record Add(string value)
         {
@@ -66,7 +67,7 @@ namespace Laba3_UI
                 return Blocks[0];
             }
 
-            key = GetStartIndex(key);
+            key -= key % 50;
             if (key == 0)
             {
                 return Blocks[0];
@@ -76,30 +77,23 @@ namespace Laba3_UI
             while (min <=max)  
             {  
                 var mid = (min + max) / 2;  
-                if (key == Blocks[mid].FirstIndex)  
-                {  
+                if (key == Blocks[mid].FirstIndex)
+                {
+                    CountEquals++;
                     return Blocks[mid];  
                 }  
-                else if (key < Blocks[mid].FirstIndex)  
-                {  
+                else if (key < Blocks[mid].FirstIndex)
+                {
+                    CountEquals++;
                     max = mid - 1;  
                 }  
-                else  
-                {  
+                else
+                {
+                    CountEquals++;
                     min = mid + 1;  
                 }  
             }
             throw new IndexOutOfRangeException();
-        }
-
-        private static int GetStartIndex(int key)
-        {
-            while (key % 50 != 0)
-            {
-                key--;
-            }
-
-            return key;
         }
         public static void DeleteRecordByKey(int key)
         {
@@ -119,49 +113,24 @@ namespace Laba3_UI
             while (min <=max)  
             {  
                 var mid = (min + max) / 2;  
-                if (key == block.Records[mid].Key)  
-                {  
+                if (key == block.Records[mid].Key)
+                {
+                    CountEquals++;
                     return block.Records[mid];  
                 }  
-                else if (key < block.Records[mid].Key)  
-                {  
+                else if (key < block.Records[mid].Key)
+                {
+                    CountEquals++;
                     max = mid - 1;  
                 }  
-                else  
-                {  
+                else
+                {
+                    CountEquals++;
                     min = mid + 1;  
                 }  
             }  
             throw new IndexOutOfRangeException();
         }
-        private static Block GetBlockByFirstIndex(int index)
-        {
-            var formatter = new BinaryFormatter();
-            using var fs = new FileStream(Path, FileMode.Open);
-            Block currentBlock;
-            while ((currentBlock = formatter.Deserialize(fs) as Block) != null)
-            {
-                if (currentBlock.FirstIndex == index)
-                {
-                    return currentBlock;
-                }
-            }
-            throw new IndexOutOfRangeException();
-        }
-        private static Record GetLastRecord(Block block = null)
-        {
-            if (block == null)
-            {
-                return new Record
-                {
-                    Key = 0,
-                    Value = string.Empty
-                };
-            }
-
-            return block.Records.Last();
-        }
-
         private static List<Block> GetBlocks()
         {
             var formatter = new BinaryFormatter();

@@ -34,6 +34,8 @@ namespace Laba3_UI
             {
                 var record = CRUD.GetByKey(key);
                 DisplayRecord(record);
+                MessageBox.Show("Count equals: " + CRUD.CountEquals);
+                CRUD.CountEquals = 0;
             }
             catch (IndexOutOfRangeException ex)
             {

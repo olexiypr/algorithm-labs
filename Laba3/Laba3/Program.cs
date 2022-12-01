@@ -15,19 +15,26 @@ namespace Laba3_UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            /*FillDB(); *///розкоментуйте цей рядок, якщо у вас немає запосненого файлу database.txt
+            FillDB();
             Application.Run(new Form1());
         }
         private static void FillDB ()
         {
             using var fs = new FileStream("database.txt", FileMode.OpenOrCreate);
-            fs.Dispose();
-            CRUD.Blocks = new List<Block>();
-            CRUD.Blocks.Add(new Block
+            var fileInfo = new FileInfo("database.txt");
+            if (fileInfo.Length > 0)
             {
-                FirstIndex = 1,
-                Records = new List<Record>()
-            });
+                return;
+            }
+            fs.Dispose();
+            CRUD.Blocks = new List<Block>
+            {
+                new Block
+                {
+                    FirstIndex = 1,
+                    Records = new List<Record>()
+                }
+            };
             for (int i = 1; i < 50; i++)
             {
                 CRUD.Blocks[0].Records.Add(new Record
