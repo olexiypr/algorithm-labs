@@ -2,9 +2,6 @@ import random
 from typing import List
 from unittest import TestCase, main
 
-
-
-
 class Item:
     def __init__(self, name, weight, value):
         self.name = name
