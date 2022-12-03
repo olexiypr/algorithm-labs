@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Laba3_UI
 {
-    internal static class Program
+    public static class Program
     {
         [STAThread]
         static void Main()
@@ -18,7 +18,7 @@ namespace Laba3_UI
             FillDB();
             Application.Run(new Form1());
         }
-        private static void FillDB ()
+        public static void FillDB ()
         {
             using var fs = new FileStream("database.txt", FileMode.OpenOrCreate);
             var fileInfo = new FileInfo("database.txt");

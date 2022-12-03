@@ -59,7 +59,7 @@ namespace Laba3_UI
             return GetRecordInBlockByKey(key, block);
         }
 
-        private static Block GetBlockByKey(int key)
+        public static Block GetBlockByKey(int key)
         {
             GetBlocks();
             if (Blocks.Count == 1)
@@ -106,7 +106,7 @@ namespace Laba3_UI
             }
             WriteBlocks();
         }
-        private static Record GetRecordInBlockByKey(int key, Block block)
+        public static Record GetRecordInBlockByKey(int key, Block block)
         {
             var min = 0;
             var max = block.Records.Count - 1; 
@@ -131,7 +131,7 @@ namespace Laba3_UI
             }  
             throw new IndexOutOfRangeException();
         }
-        private static List<Block> GetBlocks()
+        public static List<Block> GetBlocks()
         {
             var formatter = new BinaryFormatter();
             using var fs = new FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);

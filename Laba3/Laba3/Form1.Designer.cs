@@ -177,18 +177,18 @@
 
         #endregion
 
-        private System.Windows.Forms.Button AddButton;
-        private System.Windows.Forms.Button SaveChanges;
-        private System.Windows.Forms.TextBox GetByKeyInput;
-        private System.Windows.Forms.Button GetByKey;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox AddInput;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox ResultTextBox;
-        private System.Windows.Forms.Label IdLabel;
-        private System.Windows.Forms.Label label4;
+        public  System.Windows.Forms.Button AddButton;
+        public  System.Windows.Forms.Button SaveChanges;
+        public  System.Windows.Forms.TextBox GetByKeyInput;
+        public  System.Windows.Forms.Button GetByKey;
+        public  System.Windows.Forms.Label label1;
+        public  System.Windows.Forms.TextBox AddInput;
+        public  System.Windows.Forms.Button button1;
+        public  System.Windows.Forms.Label label2;
+        public  System.Windows.Forms.Label label3;
+        public  System.Windows.Forms.TextBox ResultTextBox;
+        public  System.Windows.Forms.Label IdLabel;
+        public  System.Windows.Forms.Label label4;
     }
 }
 

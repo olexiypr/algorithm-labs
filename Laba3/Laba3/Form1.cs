@@ -22,7 +22,7 @@ namespace Laba3_UI
 
         }
 
-        private void GetByKey_Click(object sender, EventArgs e)
+        public void GetByKey_Click(object sender, EventArgs e)
         {
             var input = this.GetByKeyInput.Text;
             if (!int.TryParse(input, out int key))
