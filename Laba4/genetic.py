@@ -2,15 +2,11 @@ import random
 from typing import List
 from unittest import TestCase, main
 
-
-
-
 class Item:
     def __init__(self, name, weight, value):
         self.name = name
         self.weight = weight
         self.value = value
-
 
 class Individual:
     def __init__(self, bits: List[int]):
@@ -38,7 +34,6 @@ class Individual:
         
         return 0
 
-
 MAX_KNAPSACK_WEIGHT = 250
 CROSSOVER_RATE = 0.30
 MUTATION_RATE = 0.05
@@ -51,7 +46,6 @@ for i in range(100):
     print(it.name + " " + str(it.weight) + " " + str(it.value))
     items.append(it)
 
-
 def generate_initial_population(count=100) -> List[Individual]:
     population = set()
     while len(population) != count: 
@@ -62,7 +56,6 @@ def generate_initial_population(count=100) -> List[Individual]:
         population.add(Individual(bits))
 
     return list(population)
-
 
 def selection(population: List[Individual]) -> List[Individual]:
     parents = []
@@ -78,7 +71,6 @@ def selection(population: List[Individual]) -> List[Individual]:
 
     return parents
 
-
 def crossover(parents: List[Individual]) -> List[Individual]:
     N = len(items)
 
@@ -87,13 +79,11 @@ def crossover(parents: List[Individual]) -> List[Individual]:
 
     return [Individual(child1), Individual(child2)]
 
-
 def mutate(individuals: List[Individual]) -> List[Individual]:
     for individual in individuals:
         for i in range(len(individual.bits)):
             if random.random() < MUTATION_RATE:
                 individual.bits[i] = ~individual.bits[i]
-
 
 def next_generation(population: List[Individual]) -> List[Individual]:
     next_gen = []
@@ -112,17 +102,14 @@ def next_generation(population: List[Individual]) -> List[Individual]:
 
     return next_gen[:len(population)]
 
-
 def print_generation(population: List[Individual]):
     print("Best person: ", population[0].bits, population[0].fitness())
     print()
     print("Average fitness", sum([x.fitness() for x in population])/len(population))
     print("-" * 32)
 
-
 def average_fitness(population: List[Individual]) -> float:
     return sum([i.fitness() for i in population]) / len(population)
-
 
 def solve_knapsack() -> Individual:
     population = generate_initial_population()
@@ -146,7 +133,6 @@ def get_total_weigth(bits):
             weigth += it.weight
     return weigth
     
-
 def print_solution(solution):
     print("Pack: ")
     for i in range(100):
@@ -155,7 +141,6 @@ def print_solution(solution):
             print(it.name + " " + str(it.weight) + " " + str(it.value))
     print("Total price:" + str(solution.fitness()))
     print("Total weigth:" + str(get_total_weigth(solution.bits)))
-
 
 def solve_problem():
     for _ in range(10):
@@ -166,7 +151,6 @@ def solve_problem():
 
 if __name__ == '__main__':
     solve_problem()
-
 
 #tests   
 
