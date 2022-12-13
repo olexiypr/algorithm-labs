@@ -2,7 +2,7 @@
 
 Project structure:
 > Laba1
-> ...
+>...
 > Laba4
 >> genetic.py
 > ..
