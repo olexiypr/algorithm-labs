@@ -38,9 +38,7 @@ MAX_KNAPSACK_WEIGHT = 250
 CROSSOVER_RATE = 0.30
 MUTATION_RATE = 0.05
 REPRODUCTION_RATE = 0.70
-
 items = []
-
 for i in range(100):
     it = Item("Item" + str(i),random.randint(1, 25), random.randint(2, 30))
     print(it.name + " " + str(it.weight) + " " + str(it.value))
@@ -151,8 +149,6 @@ def solve_problem():
 
 if __name__ == '__main__':
     solve_problem()
-
-#tests   
 
 class HeneticTests(TestCase):
     def test_generate_100_people_in_population(self):
