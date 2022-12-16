@@ -16,7 +16,7 @@ namespace Laba3_UI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             FillDB();
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
         public static void FillDB ()
         {

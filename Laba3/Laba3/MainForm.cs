@@ -10,19 +10,14 @@ using System.Windows.Forms;
 
 namespace Laba3_UI
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        public void GetByKey_Click(object sender, EventArgs e)
+        
+        public void ShowByKey_Click(object sender, EventArgs e)
         {
             var input = this.GetByKeyInput.Text;
             if (!int.TryParse(input, out int key))
@@ -47,10 +42,10 @@ namespace Laba3_UI
         {
             this.ResultTextBox.Text = "";
             this.ResultTextBox.Text = $"{record.Value}";
-            this.IdLabel.Text = record.Key.ToString();
+            this.ResultIdLabel.Text = record.Key.ToString();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void DeleteByKeyButton_Click(object sender, EventArgs e)
         {
             var input = this.GetByKeyInput.Text;
             if (!int.TryParse(input, out int key))
@@ -73,19 +68,19 @@ namespace Laba3_UI
         private void ClearResult ()
         {
             this.ResultTextBox.Text = "";
-            this.IdLabel.Text = "";
+            this.ResultIdLabel.Text = "";
         }
         private void ResultTextBox_TextChanged(object sender, EventArgs e)
         {
-            this.SaveChanges.Visible = true;
+            this.SaveChangesButton.Visible = true;
         }
 
         private void SaveChanges_Click(object sender, EventArgs e)
         {
-            var record = CRUD.GetByKey(int.Parse(this.IdLabel.Text));
+            var record = CRUD.GetByKey(int.Parse(this.ResultIdLabel.Text));
             record.Value = this.ResultTextBox.Text;
             this.ResultTextBox.Text = record.Value;
-            this.IdLabel.Text = record.Key.ToString();
+            this.ResultIdLabel.Text = record.Key.ToString();
             CRUD.WriteBlocks();
             MessageBox.Show("Success!");
         }

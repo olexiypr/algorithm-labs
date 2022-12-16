@@ -10,7 +10,7 @@ namespace Laba3_UI
 {
     public static class CRUD
     {
-        public const string Path = "database.txt";
+        public const string FileName = "database.txt";
         public const int CountRecordsInBlock = 50;
         public static int CountEquals = 0;
         public static List<Block> Blocks;
@@ -20,7 +20,7 @@ namespace Laba3_UI
             var lastBlock = blocks.Last();
             if (lastBlock.Records.Count == CountRecordsInBlock)
             {
-                var rec = new Record
+                var newRecord = new Record
                 {
                     Key = lastBlock.Records.Last().Key + 1,
                     Value = value
@@ -28,13 +28,10 @@ namespace Laba3_UI
                 blocks.Add(new Block
                 {
                     FirstIndex = lastBlock.Records.Last().Key + 1,
-                    Records = new List<Record>()
-                    {
-                        rec
-                    }
+                    Records = new List<Record> {newRecord}
                 });
                 WriteBlocks();
-                return rec;
+                return newRecord;
             }
             var lastRecord = lastBlock.Records.Last();
             var record = new Record
@@ -134,7 +131,7 @@ namespace Laba3_UI
         public static List<Block> GetBlocks()
         {
             var formatter = new BinaryFormatter();
-            using var fs = new FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
+            using var fs = new FileStream(FileName, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
             if (fs.Length == 0)
             {
                 var b = new List<Block>()
@@ -164,7 +161,7 @@ namespace Laba3_UI
         public static void WriteBlocks()
         {
             var formatter = new BinaryFormatter();
-            using var fs = new FileStream(Path, FileMode.Truncate, FileAccess.Write, FileShare.None);
+            using var fs = new FileStream(FileName, FileMode.Truncate, FileAccess.Write, FileShare.None);
             formatter.Serialize(fs, Blocks);
             fs.Flush();
         }
