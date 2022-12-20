@@ -12,7 +12,7 @@ namespace Tests
         [SetUp]
         public void SetUp()
         {
-            using var fs = new FileStream(CRUD.Path, FileMode.Truncate, FileAccess.Write, FileShare.None);
+            using var fs = new FileStream(CRUD.FileName, FileMode.Truncate, FileAccess.Write, FileShare.None);
             fs.Flush();
             fs.Dispose();
             Program.FillDB();
@@ -71,7 +71,7 @@ namespace Tests
         [Test]
         public void GetBlocks_With_Empty_database_txt_Return_1_Block()
         {
-            using var fs = new FileStream(CRUD.Path, FileMode.Truncate, FileAccess.Write, FileShare.None);
+            using var fs = new FileStream(CRUD.FileName, FileMode.Truncate, FileAccess.Write, FileShare.None);
             fs.Flush();
             fs.Dispose();
             var blocks = CRUD.GetBlocks();
