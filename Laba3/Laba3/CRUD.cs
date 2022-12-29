@@ -157,7 +157,6 @@ namespace Laba3_UI
             Blocks = blocks;
             return blocks;
         }
-
         public static void WriteBlocks()
         {
             var formatter = new BinaryFormatter();
