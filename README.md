@@ -24,5 +24,14 @@ $ python3 genetic.py
 ```
 ### For run laba 5
 Open directopy Laba5 (your directiories/Laba5) and run: 
+
+
+Way 1:
 ```
+$ pip install scipy && python3 bees.py
+```
+Way 2: 
+```
+$ pip install scipy
 $ python3 bees.py
+```
