@@ -116,7 +116,6 @@ def next_generation(population: List[Individual]) -> List[Individual]:
 
 def print_generation(population: List[Individual]):
     print("Best person fitness (total weight): ",population[0].fitness())
-    print()
     print("Average fitness", sum([x.fitness() for x in population])/len(population))
     print("-" * 32)
 
@@ -131,8 +130,9 @@ def solve_knapsack() -> Individual:
     for i in range(100):
         avg_fitnesses.append(average_fitness(population))
         population = next_generation(population)
-        print("\nIteration№: " + str(i) + "\n")
-        print_generation(population)
+        if i % 20 == 0:
+            print("Iteration№: " + str(i))
+            print_generation(population)
 
     population = sorted(population, key=lambda i: i.fitness(), reverse=True)
     return population[0]
@@ -163,20 +163,3 @@ def solve_problem():
 
 if __name__ == '__main__':
     solve_problem()
-
-class HeneticTests(TestCase):
-    def test_generate_100_people_in_population(self):
-        count = 100
-        length = len(generate_initial_population(count))
-        self.assertEqual(length, count)
-
-    def test_selection_return_2_persons(self):
-        population = generate_initial_population(100)
-        self.assertEqual(len(selection(population)), 2)
-
-    def test_next_generation_return_100_persons(self):
-        population = generate_initial_population(100)
-        self.assertEqual(len(next_generation(population)), 100)
-
-if __name__ == '__main__':
-    main()
