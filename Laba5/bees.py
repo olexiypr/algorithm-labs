@@ -115,22 +115,31 @@ def start():
     result = ()   
     cycle = 1
     best_distance = sys.maxsize
+    isInProcess = False
     while cycle < cycle_limit:
         waggle_distance, waggle_path = waggle(hive, best_distance, table, forager_limit, scout_count)
         if waggle_distance < best_distance:
+            isInProcess = False
             best_distance = waggle_distance
             best_path = list(waggle_path)
             print_details(cycle, best_distance)
             result = (cycle, best_distance)
+        else :
+            isInProcess = True
         recruit_distance, recruit_path = recruit(hive, best_distance, best_path, table)
         if recruit_distance < best_distance:
+            isInProcess = False
             best_distance = recruit_distance
             best_path = list(recruit_path)
             print_details(cycle, best_distance)
             result = (cycle, best_distance)
+        else :
+            isInProcess = True
         if cycle % 1000 == 0:
             print("CYCLE #: {}\n".format(cycle))
         cycle += 1
+        if isInProcess == True and cycle%50 == 0:
+            print("In process...")
     print("Result: ")
     print("Best distance: ", result[1])
     print("Cycle: ", result[0])
@@ -151,13 +160,13 @@ def enter_new_config():
     forager_p = forager_percent
     scout_p = scout_percent
     is_new_config = False
-    submit = input("To change config enter 'Y': ")
+    submit = input("To change config enter 'Y' or other characters other than 'Y': ")
     if submit == 'Y':
         print("To use default config enter '2'")
         while True:
             try:
-                pop_count = int(input("Enter population count (min 100): "))
-                if pop_count < 100:
+                pop_count = int(input("Enter population count (min 100, max 1000): "))
+                if pop_count < 100 or pop_count > 1000:
                     print("Invalid input!")
                     continue
                 if pop_count == 2:
@@ -180,7 +189,7 @@ def enter_new_config():
 count_towns = 300
 min_len = 5
 max_len = 150
-population = 1000
+population = 500
 forager_percent = 0.9
 scout_percent = 0.1
 config = enter_new_config()
