@@ -15,9 +15,10 @@ namespace Laba3_UI
         public MainForm()
         {
             InitializeComponent();
+            this.ResultTextBox.ReadOnly = true;
         }
         
-        public void ShowByKey_Click(object sender, EventArgs e)
+        private void ShowByKey_Click(object sender, EventArgs e)
         {
             var input = this.GetByKeyInput.Text;
             if (!int.TryParse(input, out int key))
@@ -27,15 +28,18 @@ namespace Laba3_UI
             }
             try
             {
-                var record = CRUD.GetByKey(key);
+                var record = CRUD.GetCRUD().GetByKey(key);
                 DisplayRecord(record);
-                MessageBox.Show("Count equals: " + CRUD.CountEquals);
-                CRUD.CountEquals = 0;
+                this.SaveChangesButton.Visible = false;
+                MessageBox.Show("Count equals: " + CRUD.GetCRUD().CountEquals);
+                CRUD.GetCRUD().CountEquals = 0;
+                this.ResultTextBox.ReadOnly = false;
             }
             catch (IndexOutOfRangeException ex)
             {
                 MessageBox.Show("There is no record with this key");
                 this.GetByKeyInput.Text = "";
+                this.ResultTextBox.ReadOnly = true;
             }
         }
         private void DisplayRecord (Record record)
@@ -55,9 +59,10 @@ namespace Laba3_UI
             }
             try
             {
-                CRUD.DeleteRecordByKey(key);
+                CRUD.GetCRUD().DeleteRecordByKey(key);
                 MessageBox.Show("Success!");
                 ClearResult();
+                this.SaveChangesButton.Visible = false;
             }
             catch (IndexOutOfRangeException ex)
             {
@@ -72,22 +77,38 @@ namespace Laba3_UI
         }
         private void ResultTextBox_TextChanged(object sender, EventArgs e)
         {
-            this.SaveChangesButton.Visible = true;
+            if (ResultIdLabel.Text != "")
+            {
+                this.SaveChangesButton.Visible = true;
+            }
         }
 
         private void SaveChanges_Click(object sender, EventArgs e)
         {
-            var record = CRUD.GetByKey(int.Parse(this.ResultIdLabel.Text));
+            var record = CRUD.GetCRUD().GetByKey(int.Parse(this.ResultIdLabel.Text));
+            if (record.Value == this.ResultTextBox.Text)
+            {
+                MessageBox.Show("Cannot update the same values!");
+                return;
+            }
             record.Value = this.ResultTextBox.Text;
             this.ResultTextBox.Text = record.Value;
             this.ResultIdLabel.Text = record.Key.ToString();
-            CRUD.WriteBlocks();
+            CRUD.GetCRUD().WriteBlocks();
             MessageBox.Show("Success!");
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var record = CRUD.Add(this.AddInput.Text);
+            if (this.AddInput.Text is "" || string.IsNullOrWhiteSpace(this.AddInput.Text))
+            {
+                MessageBox.Show("Cannot add empty value!");
+                return;
+            }
+
+            this.SaveChangesButton.Visible = false;
+            this.ResultTextBox.ReadOnly = false;
+            var record = CRUD.GetCRUD().Add(this.AddInput.Text);
             DisplayRecord(record);
         }
     }

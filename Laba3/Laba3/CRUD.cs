@@ -8,13 +8,19 @@ using System.Threading.Tasks;
 
 namespace Laba3_UI
 {
-    public static class CRUD
+    public class CRUD
     {
-        public const string FileName = "database.txt";
-        public const int CountRecordsInBlock = 50;
-        public static int CountEquals = 0;
-        public static List<Block> Blocks;
-        public static Record Add(string value)
+        public static CRUD GetCRUD()
+        {
+            return Crud ??= new CRUD();
+        }
+
+        private static CRUD Crud;
+        private const string FileName = "database.txt";
+        private const int CountRecordsInBlock = 50;
+        public int CountEquals = 0;
+        public List<Block> Blocks;
+        public Record Add(string value)
         {
             var blocks = GetBlocks();
             var lastBlock = blocks.Last();
@@ -44,7 +50,7 @@ namespace Laba3_UI
             return record;
         }
 
-        public static Record GetByKey(int key)
+        public Record GetByKey(int key)
         {
             var blocks = GetBlocks();
             if (blocks.Count == 1)
@@ -56,7 +62,7 @@ namespace Laba3_UI
             return GetRecordInBlockByKey(key, block);
         }
 
-        public static Block GetBlockByKey(int key)
+        public Block GetBlockByKey(int key)
         {
             GetBlocks();
             if (Blocks.Count == 1)
@@ -92,7 +98,7 @@ namespace Laba3_UI
             }
             throw new IndexOutOfRangeException();
         }
-        public static void DeleteRecordByKey(int key)
+        public void DeleteRecordByKey(int key)
         {
             var block = GetBlockByKey(key);
             var @record = GetRecordInBlockByKey(key, block);
@@ -103,7 +109,7 @@ namespace Laba3_UI
             }
             WriteBlocks();
         }
-        public static Record GetRecordInBlockByKey(int key, Block block)
+        public Record GetRecordInBlockByKey(int key, Block block)
         {
             var min = 0;
             var max = block.Records.Count - 1; 
@@ -128,36 +134,16 @@ namespace Laba3_UI
             }  
             throw new IndexOutOfRangeException();
         }
-        public static List<Block> GetBlocks()
+        public List<Block> GetBlocks()
         {
             var formatter = new BinaryFormatter();
             using var fs = new FileStream(FileName, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
-            if (fs.Length == 0)
-            {
-                var b = new List<Block>()
-                {
-                    new Block
-                    {
-                        FirstIndex = 1,
-                        Records = new List<Record>()
-                        {
-                            new Record
-                            {
-                                Key = 0,
-                                Value = String.Empty
-                            }
-                        }
-                    }
-                };
-                Blocks = b;
-                return b;
-            }
             var blocks = new List<Block>(formatter.Deserialize(fs) as List<Block> ?? new List<Block>());
             fs.Flush();
             Blocks = blocks;
             return blocks;
         }
-        public static void WriteBlocks()
+        public void WriteBlocks()
         {
             var formatter = new BinaryFormatter();
             using var fs = new FileStream(FileName, FileMode.Truncate, FileAccess.Write, FileShare.None);
