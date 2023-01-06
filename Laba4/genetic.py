@@ -1,6 +1,5 @@
 import random
 from typing import List
-from unittest import TestCase, main
 
 class Item:
     def __init__(self, name, weight, value):
@@ -42,7 +41,8 @@ POPULATION_COUNT = 100
 MIN_WEIGHT = 1
 MAX_WEIGHT = 25
 MIN_PRICE = 2
-MAX_PRICE = 30
+MAX_PRICE = 30          
+items = []
 print("Config:")
 print("Max knapsack weight: ", MAX_KNAPSACK_WEIGHT, " Population count: ", POPULATION_COUNT)
 print("Min item weight: ", MIN_WEIGHT, " max: ", MAX_WEIGHT)
@@ -50,8 +50,7 @@ print("Min item price: ", MIN_PRICE, " max: ", MAX_PRICE)
 print("Crossover rate: ", CROSSOVER_RATE)
 print("Reproduction rate: ", REPRODUCTION_RATE)
 print("Mutation rate: ", MUTATION_RATE)
-items = []
-printKnepsack = input("For display knapsack enter 'Y'")
+printKnepsack = input("For display items enter 'Y' or other characters other than 'Y'")
 for i in range(POPULATION_COUNT):
     it = Item("Item" + str(i),random.randint(MIN_WEIGHT, MAX_WEIGHT), random.randint(MIN_PRICE, MAX_PRICE))
     if (printKnepsack == 'Y'):
