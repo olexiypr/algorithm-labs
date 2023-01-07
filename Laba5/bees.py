@@ -1,9 +1,7 @@
-import csv
 import math
 import random
 import sys
 from scipy.spatial import distance
-import unittest
 
 class Bee:
     def __init__(self, node_set):
@@ -160,7 +158,7 @@ def enter_new_config():
     forager_p = forager_percent
     scout_p = scout_percent
     is_new_config = False
-    submit = input("To change config enter 'Y' or other characters other than 'Y': ")
+    submit = input("To change config enter 'Y' or other characters other than 'Y' to start with default config: ")
     if submit == 'Y':
         print("To use default config enter '2'")
         while True:
