@@ -30,7 +30,7 @@ Way 1:
 ```
 $ pip install scipy && python3 bees.py
 ```
-Way 2: 
+Way 2 (for Windows): 
 ```
 $ pip install scipy
 $ python3 bees.py
