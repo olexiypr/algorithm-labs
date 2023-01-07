@@ -10,13 +10,13 @@ class Item:
 class Individual:
     def __init__(self, bits: List[int]):
         self.bits = bits
-    
+
     def __str__(self):
         return repr(self.bits)
 
     def __hash__(self):
         return hash(str(self.bits))
-    
+
     def fitness(self) -> float:
         total_value = sum([
             bit * item.value
@@ -27,10 +27,10 @@ class Individual:
             bit * item.weight
             for item, bit in zip(items, self.bits)
         ])
-        
+
         if total_weight <= MAX_KNAPSACK_WEIGHT:
             return total_value
-        
+
         return 0
 
 MAX_KNAPSACK_WEIGHT = 250
@@ -41,8 +41,23 @@ POPULATION_COUNT = 100
 MIN_WEIGHT = 1
 MAX_WEIGHT = 25
 MIN_PRICE = 2
-MAX_PRICE = 30          
+MAX_PRICE = 30
 items = []
+isEditConfig = input("Enter 'E' to change config or other characters other than 'E' to start with default config: ")
+if isEditConfig == 'E':
+    while True:
+        max = input("Enter max knapsack weight (min 100, max 500): ")
+        try:
+            m = int(max)
+            if m >= 100 and m <= 500:
+                MAX_KNAPSACK_WEIGHT = m
+                break
+            else:
+                print("Invalid!")
+        except:
+            print("Invalid!")
+            continue
+
 print("Config:")
 print("Max knapsack weight: ", MAX_KNAPSACK_WEIGHT, " Population count: ", POPULATION_COUNT)
 print("Min item weight: ", MIN_WEIGHT, " max: ", MAX_WEIGHT)
@@ -50,7 +65,7 @@ print("Min item price: ", MIN_PRICE, " max: ", MAX_PRICE)
 print("Crossover rate: ", CROSSOVER_RATE)
 print("Reproduction rate: ", REPRODUCTION_RATE)
 print("Mutation rate: ", MUTATION_RATE)
-printKnepsack = input("For display items enter 'Y' or other characters other than 'Y'")
+printKnepsack = input("For display items enter 'Y' or other characters other than 'Y' to start program without display items: ")
 for i in range(POPULATION_COUNT):
     it = Item("Item" + str(i),random.randint(MIN_WEIGHT, MAX_WEIGHT), random.randint(MIN_PRICE, MAX_PRICE))
     if (printKnepsack == 'Y'):
@@ -59,7 +74,7 @@ for i in range(POPULATION_COUNT):
 
 def generate_initial_population(count=100) -> List[Individual]:
     population = set()
-    while len(population) != count: 
+    while len(population) != count:
         bits = [
             random.choice([0, 0, 0, 0, 0, 1])
             for _ in items
@@ -143,7 +158,7 @@ def get_total_weigth(bits):
             it = items[i]
             weigth += it.weight
     return weigth
-    
+
 def print_solution(solution):
     print("Pack: ")
     for i in range(100):
@@ -154,9 +169,9 @@ def print_solution(solution):
     print("Total weigth:" + str(get_total_weigth(solution.bits)))
 
 def solve_problem():
-    for _ in range(10):
+    for _ in range(int(MAX_KNAPSACK_WEIGHT / 25)):
             solution = solve_knapsack()
-            if get_total_weigth(solution.bits) < 250 and get_total_weigth(solution.bits) > 240:
+            if get_total_weigth(solution.bits) < MAX_KNAPSACK_WEIGHT and get_total_weigth(solution.bits) > MAX_KNAPSACK_WEIGHT - MAX_KNAPSACK_WEIGHT / 25:
                 print_solution(solution)
                 return
 
