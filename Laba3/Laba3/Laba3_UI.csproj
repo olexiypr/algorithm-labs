@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Block.cs" />
     <Compile Include="CRUD.cs" />
+    <Compile Include="ICRUD.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

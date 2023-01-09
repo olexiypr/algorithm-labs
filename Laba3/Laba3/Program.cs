@@ -27,7 +27,7 @@ namespace Laba3_UI
                 return;
             }
             fs.Dispose();
-            CRUD.Blocks = new List<Block>
+            CRUD.GetCRUD().Blocks = new List<Block>
             {
                 new Block
                 {
@@ -35,14 +35,24 @@ namespace Laba3_UI
                     Records = new List<Record>()
                 }
             };
+            FillBlocks();
+        }
+
+        private static void FillFirstBlock()
+        {
             for (int i = 1; i < 50; i++)
             {
-                CRUD.Blocks[0].Records.Add(new Record
+                CRUD.GetCRUD().Blocks[0].Records.Add(new Record
                 {
                     Key = i,
                     Value = "Value: " + i
                 });
             }
+        }
+
+        private static void FillBlocks()
+        {
+            FillFirstBlock();
             for (int i = 0; i < 10000; i+= 50)
             {
                 var block = new Block
@@ -58,9 +68,9 @@ namespace Laba3_UI
                         Value = "Value: " + (i + j)
                     });
                 }
-                CRUD.Blocks.Add(block);
+                CRUD.GetCRUD().Blocks.Add(block);
             }
-            CRUD.WriteBlocks();
+            CRUD.GetCRUD().WriteBlocks();
         }
     }
 }
