@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace Laba3_UI
 {
-    public class CRUD
+    public class CRUD : ICrud
     {
-        public static CRUD GetCRUD()
+        public static ICrud GetCRUD()
         {
-            return Crud ??= new CRUD();
+            return _crud ??= new CRUD();
         }
 
-        private static CRUD Crud;
+        private static ICrud _crud;
         private const string FileName = "database.txt";
         private const int CountRecordsInBlock = 50;
         public int CountEquals = 0;
-        public List<Block> Blocks;
+        public List<Block> Blocks { get; set; }
         public Record Add(string value)
         {
             var blocks = GetBlocks();
@@ -50,19 +50,23 @@ namespace Laba3_UI
             return record;
         }
 
-        public Record GetByKey(int key)
+        public (int, Record) GetByKey(int key)
         {
             var blocks = GetBlocks();
             if (blocks.Count == 1)
             {
-                return GetRecordInBlockByKey(key, blocks[0]);
+                return (CountEquals, GetRecordInBlockByKey(key, blocks[0]));
             }
 
             var block = GetBlockByKey(key);
-            return GetRecordInBlockByKey(key, block);
+            var record = GetRecordInBlockByKey(key, block);
+            var countEquals = CountEquals;
+            var result = (countEquals,record);
+            CountEquals = 0;
+            return result;
         }
-
-        public Block GetBlockByKey(int key)
+        
+        private Block GetBlockByKey(int key)
         {
             GetBlocks();
             if (Blocks.Count == 1)
@@ -70,9 +74,10 @@ namespace Laba3_UI
                 return Blocks[0];
             }
 
-            key -= key % 50;
+            key -= key % CountRecordsInBlock;
             if (key == 0)
             {
+                CountEquals++;
                 return Blocks[0];
             }
             var min = 0;
@@ -109,7 +114,8 @@ namespace Laba3_UI
             }
             WriteBlocks();
         }
-        public Record GetRecordInBlockByKey(int key, Block block)
+
+        private Record GetRecordInBlockByKey(int key, Block block)
         {
             var min = 0;
             var max = block.Records.Count - 1; 
@@ -134,7 +140,8 @@ namespace Laba3_UI
             }  
             throw new IndexOutOfRangeException();
         }
-        public List<Block> GetBlocks()
+
+        private List<Block> GetBlocks()
         {
             var formatter = new BinaryFormatter();
             using var fs = new FileStream(FileName, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);

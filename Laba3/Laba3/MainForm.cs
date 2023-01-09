@@ -29,11 +29,10 @@ namespace Laba3_UI
             }
             try
             {
-                var record = CRUD.GetCRUD().GetByKey(key);
+                var (countEquals,record) = CRUD.GetCRUD().GetByKey(key);
                 DisplayRecord(record);
                 this.SaveChangesButton.Visible = false;
-                MessageBox.Show("Count equals: " + CRUD.GetCRUD().CountEquals);
-                CRUD.GetCRUD().CountEquals = 0;
+                MessageBox.Show("Count equals: " + countEquals);
                 this.ResultTextBox.ReadOnly = false;
             }
             catch (IndexOutOfRangeException ex)
@@ -87,7 +86,7 @@ namespace Laba3_UI
 
         private void SaveChanges_Click(object sender, EventArgs e)
         {
-            var record = CRUD.GetCRUD().GetByKey(int.Parse(this.ResultIdLabel.Text));
+            var record = CRUD.GetCRUD().GetByKey(int.Parse(this.ResultIdLabel.Text)).Item2;
             if (record.Value == this.ResultTextBox.Text)
             {
                 MessageBox.Show("Cannot update the same values!");
