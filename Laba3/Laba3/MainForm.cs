@@ -25,6 +25,7 @@ namespace Laba3_UI
             {
                 MessageBox.Show("Invalid id!");
                 this.GetByKeyInput.Text = "";
+                return;
             }
             try
             {
@@ -56,6 +57,7 @@ namespace Laba3_UI
             {
                 MessageBox.Show("Invalid id!");
                 this.GetByKeyInput.Text = "";
+                return;
             }
             try
             {
@@ -89,6 +91,11 @@ namespace Laba3_UI
             if (record.Value == this.ResultTextBox.Text)
             {
                 MessageBox.Show("Cannot update the same values!");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(this.ResultTextBox.Text) || string.IsNullOrWhiteSpace(this.ResultTextBox.Text))
+            {
+                MessageBox.Show("Cannot update empty value!");
                 return;
             }
             record.Value = this.ResultTextBox.Text;
