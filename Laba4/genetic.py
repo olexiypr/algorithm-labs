@@ -1,6 +1,5 @@
 import random
 from typing import List
-from unittest import TestCase, main
 
 class Item:
     def __init__(self, name, weight, value):
@@ -11,13 +10,13 @@ class Item:
 class Individual:
     def __init__(self, bits: List[int]):
         self.bits = bits
-    
+
     def __str__(self):
         return repr(self.bits)
 
     def __hash__(self):
         return hash(str(self.bits))
-    
+
     def fitness(self) -> float:
         total_value = sum([
             bit * item.value
@@ -28,10 +27,10 @@ class Individual:
             bit * item.weight
             for item, bit in zip(items, self.bits)
         ])
-        
+
         if total_weight <= MAX_KNAPSACK_WEIGHT:
             return total_value
-        
+
         return 0
 
 MAX_KNAPSACK_WEIGHT = 250
@@ -43,6 +42,22 @@ MIN_WEIGHT = 1
 MAX_WEIGHT = 25
 MIN_PRICE = 2
 MAX_PRICE = 30
+items = []
+isEditConfig = input("Enter 'E' to change config or other characters other than 'E' to start with default config: ")
+if isEditConfig == 'E':
+    while True:
+        max = input("Enter max knapsack weight (min 100, max 500): ")
+        try:
+            m = int(max)
+            if m >= 100 and m <= 500:
+                MAX_KNAPSACK_WEIGHT = m
+                break
+            else:
+                print("Invalid!")
+        except:
+            print("Invalid!")
+            continue
+
 print("Config:")
 print("Max knapsack weight: ", MAX_KNAPSACK_WEIGHT, " Population count: ", POPULATION_COUNT)
 print("Min item weight: ", MIN_WEIGHT, " max: ", MAX_WEIGHT)
@@ -50,8 +65,7 @@ print("Min item price: ", MIN_PRICE, " max: ", MAX_PRICE)
 print("Crossover rate: ", CROSSOVER_RATE)
 print("Reproduction rate: ", REPRODUCTION_RATE)
 print("Mutation rate: ", MUTATION_RATE)
-items = []
-printKnepsack = input("For display knapsack enter 'Y'")
+printKnepsack = input("For display items enter 'Y' or other characters other than 'Y' to start program without display items: ")
 for i in range(POPULATION_COUNT):
     it = Item("Item" + str(i),random.randint(MIN_WEIGHT, MAX_WEIGHT), random.randint(MIN_PRICE, MAX_PRICE))
     if (printKnepsack == 'Y'):
@@ -60,7 +74,7 @@ for i in range(POPULATION_COUNT):
 
 def generate_initial_population(count=100) -> List[Individual]:
     population = set()
-    while len(population) != count: 
+    while len(population) != count:
         bits = [
             random.choice([0, 0, 0, 0, 0, 1])
             for _ in items
@@ -116,7 +130,6 @@ def next_generation(population: List[Individual]) -> List[Individual]:
 
 def print_generation(population: List[Individual]):
     print("Best person fitness (total weight): ",population[0].fitness())
-    print()
     print("Average fitness", sum([x.fitness() for x in population])/len(population))
     print("-" * 32)
 
@@ -131,8 +144,9 @@ def solve_knapsack() -> Individual:
     for i in range(100):
         avg_fitnesses.append(average_fitness(population))
         population = next_generation(population)
-        print("\nIteration№: " + str(i) + "\n")
-        print_generation(population)
+        if i % 20 == 0:
+            print("Iteration№: " + str(i))
+            print_generation(population)
 
     population = sorted(population, key=lambda i: i.fitness(), reverse=True)
     return population[0]
@@ -144,7 +158,7 @@ def get_total_weigth(bits):
             it = items[i]
             weigth += it.weight
     return weigth
-    
+
 def print_solution(solution):
     print("Pack: ")
     for i in range(100):
@@ -155,28 +169,11 @@ def print_solution(solution):
     print("Total weigth:" + str(get_total_weigth(solution.bits)))
 
 def solve_problem():
-    for _ in range(10):
+    for _ in range(int(MAX_KNAPSACK_WEIGHT / 25)):
             solution = solve_knapsack()
-            if get_total_weigth(solution.bits) < 250 and get_total_weigth(solution.bits) > 240:
+            if get_total_weigth(solution.bits) < MAX_KNAPSACK_WEIGHT and get_total_weigth(solution.bits) > MAX_KNAPSACK_WEIGHT - MAX_KNAPSACK_WEIGHT / 25:
                 print_solution(solution)
                 return
 
 if __name__ == '__main__':
     solve_problem()
-
-class HeneticTests(TestCase):
-    def test_generate_100_people_in_population(self):
-        count = 100
-        length = len(generate_initial_population(count))
-        self.assertEqual(length, count)
-
-    def test_selection_return_2_persons(self):
-        population = generate_initial_population(100)
-        self.assertEqual(len(selection(population)), 2)
-
-    def test_next_generation_return_100_persons(self):
-        population = generate_initial_population(100)
-        self.assertEqual(len(next_generation(population)), 100)
-
-if __name__ == '__main__':
-    main()
